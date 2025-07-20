@@ -20,9 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShowcaseProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting  (
-
-                        name =    "Android With Action", modifier = Modifier.padding(innerPadding)
+                    Greeting(
+                        name = "Android With Action", modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
