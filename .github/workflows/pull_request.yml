@@ -1,4 +1,4 @@
-name: Run Test
+name: Pull Request Workflow
 on:
   pull_request:
     branches: [ "main" ]
@@ -20,5 +20,20 @@ jobs:
         run: chmod +x gradlew
       - name: Run unit tests
         run: ./gradlew clean testDebug
-#          run: ./gradlew test --info --stacktrace
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run lint check
+        run: ./gradlew lintDebug --continue --info --stacktrace
 
