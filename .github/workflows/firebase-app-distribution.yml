@@ -40,4 +40,4 @@ jobs:
           appId: ${{ env.FIREBASE_APP_ID }}
           token: ${{ env.FIREBASE_TOKEN }}
           groups: testers
-          file: app/build/outputs/apk/release/app-release.apk
+          file: app/build/outputs/apk/release/app-release-unsigned.apk
