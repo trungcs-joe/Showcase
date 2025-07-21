@@ -17,22 +17,27 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Extract version
+      - name: Extract version from tag
         id: version
         run: |
-          VERSION="${{ github.ref_name }}"
-          VERSION="${VERSION##releases/}"
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          TAG="${GITHUB_REF#refs/tags/releases/}"
+          echo "VERSION_NAME=$TAG" >> $GITHUB_OUTPUT
+          VERSION_CODE=$(echo $TAG | tr -d '.' | sed 's/^0*//')
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_OUTPUT
 
-      - name: Build Release APK
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build APK
         run: ./gradlew assembleRelease
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.VERSION_NAME }}
+          VERSION_CODE: ${{ steps.version.outputs.VERSION_CODE }}
 
       - name: Upload to Firebase App Distribution
-        run: |
-          firebase appdistribution:distribute app/build/outputs/apk/release/app-release-unsigned.apk \
-            --app ${{ secrets.FIREBASE_APP_ID }} \
-            --token ${{ secrets.FIREBASE_TOKEN }} \
-            --groups "qa"
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ env.FIREBASE_APP_ID }}
+          token: ${{ env.FIREBASE_TOKEN }}
+          groups: testers
+          file: app/build/outputs/apk/release/app-release.apk
