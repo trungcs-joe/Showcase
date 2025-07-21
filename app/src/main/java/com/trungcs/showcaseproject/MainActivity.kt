@@ -20,8 +20,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ShowcaseProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting  (
-                        name =   "Android With Action", modifier = Modifier.padding(innerPadding)
+                    Greeting(
+                        name = "Android With Action",
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }
@@ -32,7 +33,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!", modifier = modifier
+        text = "Hello $name!",
+        modifier = modifier,
     )
 }
 
