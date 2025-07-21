@@ -1,38 +1,38 @@
-name: Firebase App Distribution
-
 on:
   push:
     tags:
-      - 'releases/**' # only trigger on tags like releases/1.2.3
+      - 'releases/*'
 
 jobs:
-  build:
-    name: Build & Upload to Firebase
+  release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: 17
+          distribution: 'temurin'
 
-      - name: Set up Gradle
-        uses: gradle/gradle-build-action@v2
+      - name: Extract version
+        id: version
+        run: |
+          VERSION="${{ github.ref_name }}"
+          VERSION="${VERSION##releases/}"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Build release AAB
-        run: ./gradlew bundleRelease
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
       - name: Upload to Firebase App Distribution
         run: |
-          firebase appdistribution:distribute app/build/outputs/bundle/release/app-release.aab \
+          firebase appdistribution:distribute app/build/outputs/apk/release/app-release.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --token ${{ secrets.FIREBASE_TOKEN }} \
-            --groups "qa" \
-            --release-notes "Version ${{ github.ref_name }}"
+            --groups "qa"
