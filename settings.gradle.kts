@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,3 +22,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "ShowcaseProject"
 include(":app")
+include(":model")
+include(":database")
+include(":data")
+include(":common")
