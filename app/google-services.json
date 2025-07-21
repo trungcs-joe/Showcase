@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900826301660",
+    "project_id": "fir-app-distribution-4faf4",
+    "storage_bucket": "fir-app-distribution-4faf4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900826301660:android:5df586e1ad1331a206e019",
+        "android_client_info": {
+          "package_name": "com.trungcs.showcaseproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2gyMfs542DtNEcWHpy6S3DsgdSmhXAGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
